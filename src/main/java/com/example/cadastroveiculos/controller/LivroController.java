@@ -9,7 +9,7 @@ import com.example.cadastroveiculos.repository.LivroRepository;
 @CrossOrigin(origins = "http://localhost:5173") // Endereço do front
 @RestController
 
-@RequestMapping("/veiculos")
+@RequestMapping("/livros")
 public class LivroController {
 
     @Autowired
@@ -22,25 +22,22 @@ public class LivroController {
     public Livro criarVeiculo(@RequestBody Livro veiculo) {
         return livroRepository.save(veiculo);
     }
-    @DeleteMapping("/{placa}")
-    public ResponseEntity<String> deletarVeiculo(@PathVariable String placa) {
+    @DeleteMapping("/{isbn}")
+    public ResponseEntity<String> deletarVeiculo(@PathVariable Long isbn) {
         try {
-            livroRepository.deleteById(placa);
-            return ResponseEntity.ok("Veiculo deletado com sucesso.");
+            livroRepository.deleteById(isbn);
+            return ResponseEntity.ok("livro deletado com sucesso.");
         } catch (EmptyResultDataAccessException e) {
             return ResponseEntity.notFound().build();
         }
     }
-    @PutMapping("/{placa}")
-    public ResponseEntity<Livro> atualizarVeiculo(@PathVariable String placa, @RequestBody Livro veiculoAtualizado) {
-        if (livroRepository.existsById(placa)) {
-            Livro veiculo = livroRepository.findById(placa).get();
-            veiculo.setPlaca(veiculoAtualizado.getPlaca());
-            veiculo.setCor(veiculoAtualizado.getCor());
-            veiculo.setFabricante(veiculoAtualizado.getFabricante());
-            veiculo.setModelo(veiculoAtualizado.getModelo());
-            veiculo.setCategoria(veiculoAtualizado.getCategoria());
-            veiculo.setAno(veiculoAtualizado.getAno());
+    @PutMapping("/{isbn}")
+    public ResponseEntity<Livro> atualizarVeiculo(@PathVariable Long isbn, @RequestBody Livro livroAtualizado) {
+        if (livroRepository.existsById(isbn)) {
+            Livro veiculo = livroRepository.findById(isbn).get();
+            veiculo.setNome(livroAtualizado.getNome());
+            veiculo.setNacionalidade(livroAtualizado.getNacionalidade());
+            veiculo.setAno(livroAtualizado.getAno());
             Livro veiculoAtualizadoBD = livroRepository.save(veiculo);
             return ResponseEntity.ok(veiculoAtualizadoBD);
         } else {

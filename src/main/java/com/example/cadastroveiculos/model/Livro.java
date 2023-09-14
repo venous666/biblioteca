@@ -7,10 +7,11 @@ import jakarta.persistence.*;
 @Setter
 public class Livro {
     @Id
-    private String placa;
-    private String modelo;
+    private long isbn;
+    private String Nome;
+    private String Nacionalidade;
     private int ano;
-    private String cor;
+    private String capa;
 
 
     @ManyToOne
